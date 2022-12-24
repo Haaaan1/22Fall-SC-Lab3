@@ -9,4 +9,9 @@ public class Generation {
     // Ask all Cells: How many alive neighbours?
 
     // Tell Cells: What to do Next?
+
+    // Ask all Cells to execute
+    public void executeAll(){
+
+    }
 }
