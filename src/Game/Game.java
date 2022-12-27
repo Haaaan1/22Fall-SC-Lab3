@@ -27,7 +27,7 @@ public class Game {
         players.add(new Player(PlayerId.PLAYER_B));
         
         // initialize GUI
-        ui.setUp();
+        ui.setUpGameWindow();
     }
 
     public void play(){
