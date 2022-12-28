@@ -24,10 +24,7 @@ public class Cell {
 
     // Ask cell itself whether it is alive
     public boolean areYouAlive(){
-        if(status==Status.ALIVE)
-            return true;
-        else
-            return false;
+        return status==Status.ALIVE;
     }
 
     // Suicide at the end of Turn
@@ -60,6 +57,10 @@ public class Cell {
             return Color.RED;
         else
             return Color.GRAY;
+    }
+
+    public PlayerId getOwner(){
+        return owner;
     }
 
 }
