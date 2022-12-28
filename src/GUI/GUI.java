@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.util.Objects;
 
 public class GUI {
+    private JLayeredPane gamePanel;
     private int[] clickPosition;
     private String player1Name;
     private String player2Name;
@@ -33,7 +34,7 @@ public class GUI {
         return playerName;
     }
 
-    public String setCellColor(String player, String[] colorOption){
+    public String getCellColor(String player, String[] colorOption) {
         JPanel panel = new JPanel();
         String playerColorStr = (String) JOptionPane.showInputDialog(panel, player + "select cell's color", "Select Cell's Color", 1, null, colorOption, colorOption[0]);
         if (playerColorStr == null) {
@@ -42,9 +43,25 @@ public class GUI {
         return playerColorStr;
     }
 
+    public Color setCellColor(String cellColor){
+        switch (cellColor){
+            case "black":
+                return Color.BLACK;
+            case "white":
+                return Color.WHITE;
+            case "red":
+                return Color.RED;
+            case "blue":
+                return Color.BLUE;
+            case "yellow":
+                return Color.YELLOW;
+        }
+    }
+
     public void setAllPlayersInfo() {
         player1Name = setPlayerName("player1 ");
-        player1ColorStr = setCellColor("player1 ", colorOption);
+        player1ColorStr = getCellColor("player1 ", colorOption);
+        player1Color = setCellColor(player1ColorStr);
 
         String[] newColorOption = new String[colorOption.length - 1];
         int flag = 0;
@@ -55,7 +72,8 @@ public class GUI {
             }
         }
         player2Name = setPlayerName("player2 ");
-        player2ColorStr = setCellColor("player2 ", newColorOption);
+        player2ColorStr = getCellColor("player2 ", newColorOption);
+        player2Color = setCellColor(player2ColorStr);
     }
 
     public void setUpGameWindow() {
@@ -67,10 +85,44 @@ public class GUI {
         JFrame gameWindow = new JFrame("Group 18-Conway’s Game of Life");
         gameWindow.setBounds(200, 300, 800, 680);
         gameWindow.setBackground(Color.LIGHT_GRAY);
-        JPanel gamePanel = new JPanel();
+//        Container gamePanel = new Container();
+        gamePanel = new JLayeredPane();
         GridLayout gridLayout = new GridLayout(30, 30, 1, 1);
         gamePanel.setLayout(gridLayout);
         gamePanel.setBounds(25, 25, 600, 600);
+        gamePanel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    clickPosition = new int[2];
+                    clickPosition[0] = e.getX() / 20;
+                    clickPosition[1] = e.getY() / 20;
+                    System.out.println(e.getX() / 20);
+                    System.out.println(e.getY() / 20);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+//        container.add(gamePanel);
 
         for (int i = 0; i < 900; i++) {
             JPanel gridPanel1 = new JPanel();
@@ -117,41 +169,15 @@ public class GUI {
         infoPanel.add(generationNum);
         infoPanel.setBounds(650, 25, 100, 600);
 
+        Component c = gamePanel.getComponentAt(40, 65);
+        System.out.println(c);
+        if (c instanceof JPanel) {
+            c.setBackground(Color.BLACK);
+        }
+
         gameWindow.add(gamePanel);
         gameWindow.add(infoPanel);
         gameWindow.add(headerLabel);
-        gameWindow.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    clickPosition = new int[2];
-                    clickPosition[0] = (e.getX() - 30) / 20;
-                    clickPosition[1] = (e.getY() - 55) / 20;
-                    System.out.println((e.getX() - 30) / 20);
-                    System.out.println((e.getY() - 55) / 20);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
         gameWindow.setVisible(true);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -159,6 +185,14 @@ public class GUI {
 
     public int[] getClickPosition() {
         return clickPosition;
+    }
+
+    public void killCell(int[] position) {
+        Component c = gamePanel.getComponentAt(position[0] * 20, position[1] * 20);
+        System.out.println(c);
+        if (c instanceof JPanel) {
+            c.setBackground(Color.GRAY);
+        }
     }
 
     public void refreshGamePanel() {
