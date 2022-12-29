@@ -46,13 +46,13 @@ public class Game {
     // If someone wins, return true.
     private boolean judgeWinner() {
         for (Player player : players) {
-            if (player.geLivingCellNum() == 0) return true;
+            if (player.getLivingCellNum() == 0) return true;
         }
         return false;
     }
 
     private void getAndDeclareWinner() {
-        final var winners = players.stream().filter(p -> p.geLivingCellNum() != 0).toList();
+        final var winners = players.stream().filter(p -> p.getLivingCellNum() != 0).toList();
         ui.endWithWinner(winners.get(0));
     }
 

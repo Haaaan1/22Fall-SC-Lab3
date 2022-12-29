@@ -17,7 +17,7 @@ public class Player {
         return id;
     }
 
-    public int geLivingCellNum() {
+    public int getLivingCellNum() {
         return livingCellNum;
     }
 
