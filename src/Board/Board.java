@@ -18,10 +18,10 @@ public class Board {
     }
 
     //
-    public static ArrayList<Cell> findNeighbours(Cell cell){
-        ArrayList<Cell> neighbours = new ArrayList<Cell>();
+    public static Neighbour findNeighbours(Cell cell){
+        Neighbour neighbour = new Neighbour(cell);
         // Find neighbours
-        return neighbours;
+        return neighbour;
     }
 
     // Return iterator

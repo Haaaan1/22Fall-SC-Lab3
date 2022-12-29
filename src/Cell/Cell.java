@@ -1,24 +1,29 @@
 package Cell;
 
+import Board.Board;
 import Player.PlayerId;
+
+import java.util.ArrayList;
 
 public class Cell {
     private Status status;
     private PlayerId owner;
     private Status nextStatus;
     private PlayerId nextOwner;
-    private Neighbour neighbours;
+    private Neighbour neighbour;
+    private ArrayList<Cell> neighbourCellList;
 
-    public Cell(){
+    public Cell(Board board){
         // aggregate all 8 neighbours
-        this.neighbours = new Neighbour(this);
+        //this.neighbour = neighbour;
+        neighbour = board.findNeighbours(this);
         // initial to be DEAD
         status = Status.DEAD;
     }
 
     // Ask neighbours how many are alive
     public int howManyAlive(){
-        int aliveNum = neighbours.getAliveNum();
+        int aliveNum = neighbour.getAliveNum();
         return aliveNum;
     }
 
