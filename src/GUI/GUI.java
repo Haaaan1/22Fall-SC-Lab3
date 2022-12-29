@@ -8,8 +8,10 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
 
-public class GUI {
+public class GUI implements Observer {
     private JLayeredPane gamePanel;
     private int[] clickPosition;
     private String player1Name;
@@ -44,18 +46,14 @@ public class GUI {
     }
 
     public Color setCellColor(String cellColor){
-        switch (cellColor){
-            case "black":
-                return Color.BLACK;
-            case "white":
-                return Color.WHITE;
-            case "red":
-                return Color.RED;
-            case "blue":
-                return Color.BLUE;
-            case "yellow":
-                return Color.YELLOW;
-        }
+        return switch (cellColor) {
+            case "black" -> Color.BLACK;
+            case "white" -> Color.WHITE;
+            case "red" -> Color.RED;
+            case "blue" -> Color.BLUE;
+            case "yellow" -> Color.YELLOW;
+            default -> null;
+        };
     }
 
     public void setAllPlayersInfo() {
@@ -212,5 +210,10 @@ public class GUI {
 
     public void startTurnOf(Player player) {
         // Start player's turn and let player pick one cell to kill and one cell to place
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
