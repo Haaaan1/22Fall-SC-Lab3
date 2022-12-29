@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 
+import Game.Generation.Generation;
 import Player.*;
 
 import java.awt.*;
@@ -13,7 +14,6 @@ import java.util.Observer;
 
 public class GUI implements Observer {
     private JLayeredPane gamePanel;
-    private int[] clickPosition;
     private String player1Name;
     private String player2Name;
     private Color player1Color;
@@ -21,6 +21,7 @@ public class GUI implements Observer {
     private Color player2Color;
     private String player2ColorStr;
     private String[] colorOption = {"black", "white", "red", "blue", "yellow"};
+    Generation generation = new Generation();
 
     public String setPlayerName(PlayerId player) {
         String playerName = "";
@@ -74,6 +75,14 @@ public class GUI implements Observer {
         player2Color = setCellColor(player2ColorStr);
     }
 
+    public String getPlayerName(Player player){
+        if(player.getPlayerId() == PlayerId.PLAYER_A){
+            return player1Name;
+        }else {
+            return player2Name;
+        }
+    }
+
     public void setUpGameWindow() {
 //        System.out.println(player1Name);
         setAllPlayersInfo();
@@ -88,38 +97,7 @@ public class GUI implements Observer {
         GridLayout gridLayout = new GridLayout(30, 30, 1, 1);
         gamePanel.setLayout(gridLayout);
         gamePanel.setBounds(25, 25, 600, 600);
-        gamePanel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    clickPosition = new int[2];
-                    clickPosition[0] = e.getX() / 20;
-                    clickPosition[1] = e.getY() / 20;
-                    System.out.println(e.getX() / 20);
-                    System.out.println(e.getY() / 20);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
 //        container.add(gamePanel);
 
         for (int i = 0; i < 900; i++) {
@@ -181,9 +159,9 @@ public class GUI implements Observer {
 
     }
 
-    public int[] getClickPosition() {
-        return clickPosition;
-    }
+//    public int[] getClickPosition() {
+//        return clickPosition;
+//    }
 
     public void killCell(int[] position) {
         Component c = gamePanel.getComponentAt(position[0] * 20, position[1] * 20);
@@ -210,6 +188,42 @@ public class GUI implements Observer {
 
     public void startTurnOf(Player player) {
         // Start player's turn and let player pick one cell to kill and one cell to place
+        gamePanel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    int[] clickPosition= new int[2];
+                    clickPosition[0] = e.getX() / 20;
+                    clickPosition[1] = e.getY() / 20;
+                    System.out.println(e.getX() / 20);
+                    System.out.println(e.getY() / 20);
+                    if(generation.getKill(player, clickPosition)){
+                        // change color
+
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
     @Override

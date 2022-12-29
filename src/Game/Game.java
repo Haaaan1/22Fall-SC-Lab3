@@ -14,6 +14,7 @@ public class Game {
     private final TurnResult turnResult;
     private final Generation generation;
 
+
     public Game(){
         board = new Board();
         ui = new GUI();
@@ -38,6 +39,7 @@ public class Game {
             }
             // After each player's turn, ask generation to execute all cells' move
             generation.executeAll();
+            // Display turn
         }
         // Game ends with winner
         getAndDeclareWinner();
