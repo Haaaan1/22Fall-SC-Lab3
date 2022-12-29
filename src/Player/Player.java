@@ -1,6 +1,7 @@
 package Player;
 
 
+import java.awt.*;
 
 /**
  * Represent a player in the game
@@ -14,7 +15,8 @@ public class Player {
     public Player (PlayerId id,String name) {
         this.id = id;
         this.name = name;
-        this.livingCellNum = 0;
+//        this.livingCellNum = 0;
+        this.livingCellNum = 10;
     }
 
     public PlayerId getPlayerId() {

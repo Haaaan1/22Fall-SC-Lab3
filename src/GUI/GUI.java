@@ -2,8 +2,8 @@ package GUI;
 
 import javax.swing.*;
 
+import Cell.Cell;
 import Game.Game;
-import Game.Generation.Generation;
 import Player.*;
 
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GUI implements Observer {
+public class GUI {
     private JLayeredPane gamePanel;
     private String player1Name;
     private String player2Name;
@@ -22,14 +22,15 @@ public class GUI implements Observer {
     private Color player2Color;
     private String player2ColorStr;
     private String[] colorOption = {"black", "white", "red", "blue", "yellow"};
-    private int playerTurn = 0;
+    private TurnType playerNextTurn = TurnType.KILL_TURN;
+    int[] clickPosition;
 //    Game game = new Game();
 
     public String setPlayerName(PlayerId player) {
         String playerName = "";
         while (Objects.equals(playerName, "")) {
             JPanel panel = new JPanel();
-            playerName = JOptionPane.showInputDialog(panel, player + "enter your username:", "Enter Username", 1);
+            playerName = JOptionPane.showInputDialog(panel, player.toString() + "enter your username:", "Enter Username", 1);
             System.out.println(playerName);
             if (playerName == null) {
                 System.exit(0);
@@ -41,14 +42,14 @@ public class GUI implements Observer {
 
     public String getCellColor(PlayerId player, String[] colorOption) {
         JPanel panel = new JPanel();
-        String playerColorStr = (String) JOptionPane.showInputDialog(panel, player + "select cell's color", "Select Cell's Color", 1, null, colorOption, colorOption[0]);
+        String playerColorStr = (String) JOptionPane.showInputDialog(panel, player.toString() + "select cell's color", "Select Cell's Color", 1, null, colorOption, colorOption[0]);
         if (playerColorStr == null) {
             System.exit(0);
         }
         return playerColorStr;
     }
 
-    public Color setCellColor(String cellColor){
+    public Color setCellColor(String cellColor) {
         return switch (cellColor) {
             case "black" -> Color.BLACK;
             case "white" -> Color.WHITE;
@@ -77,10 +78,10 @@ public class GUI implements Observer {
         player2Color = setCellColor(player2ColorStr);
     }
 
-    public String getPlayerName(Player player){
-        if(player.getPlayerId() == PlayerId.PLAYER_A){
+    public String getPlayerName(PlayerId player) {
+        if (player == PlayerId.PLAYER_A) {
             return player1Name;
-        }else {
+        } else {
             return player2Name;
         }
     }
@@ -99,6 +100,38 @@ public class GUI implements Observer {
         GridLayout gridLayout = new GridLayout(30, 30, 1, 1);
         gamePanel.setLayout(gridLayout);
         gamePanel.setBounds(25, 25, 600, 600);
+        gamePanel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    clickPosition = new int[2];
+                    clickPosition[0] = e.getX() / 20;
+                    clickPosition[1] = e.getY() / 20;
+                    System.out.println(e.getX() / 20);
+                    System.out.println(e.getY() / 20);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
 //        container.add(gamePanel);
 
@@ -161,24 +194,53 @@ public class GUI implements Observer {
 
     }
 
-//    public int[] getClickPosition() {
-//        return clickPosition;
-//    }
-
     public void killCell(int[] position, Player player) {
+        Game game = new Game();
+        while (!game.getKill(player, position)) {
+            playerNextTurn = TurnType.KILL_TURN;
+            clickPosition = new int[2];
+        }
+        clickPosition = new int[2];
         Component c = gamePanel.getComponentAt(position[0] * 20, position[1] * 20);
         System.out.println(c);
         if (c instanceof JPanel) {
             c.setBackground(Color.GRAY);
         }
+        playerNextTurn = TurnType.RELIVE_TURN;
     }
 
-    public void reliveCell(int[] position, Player player){
-
+    public void reliveCell(int[] position, Player player) {
+        Game game = new Game();
+        while (!game.getRelive(player, position)) {
+            playerNextTurn = TurnType.RELIVE_TURN;
+            clickPosition = new int[2];
+        }
+        clickPosition = new int[2];
+        Component c = gamePanel.getComponentAt(position[0] * 20, position[1] * 20);
+        System.out.println(c);
+        if (c instanceof JPanel) {
+            if (player.getPlayerId() == PlayerId.PLAYER_A) {
+                c.setBackground(player1Color);
+            } else {
+                c.setBackground(player2Color);
+            }
+        }
+        playerNextTurn = TurnType.KILL_TURN;
     }
 
-    public void refreshGamePanel() {
-
+    public void refreshGamePanel(Cell[][] allCells) {
+        for (int i = 0; i < allCells.length; i++) {
+            for (int j = 0; j < allCells[i].length; j++) {
+                Component c = gamePanel.getComponentAt(i * 20, j * 20);
+                if (allCells[i][j].getOwner() == PlayerId.PLAYER_A) {
+                    c.setBackground(player1Color);
+                } else if (allCells[i][j].getOwner() == PlayerId.PLAYER_B){
+                    c.setBackground(player2Color);
+                }else {
+                    c.setBackground(Color.GRAY);
+                }
+            }
+        }
     }
 
 //    public static void main(String[] args) {
@@ -194,54 +256,14 @@ public class GUI implements Observer {
 
     public void startTurnOf(Player player) {
         // Start player's turn and let player pick one cell to kill and one cell to place
-
-        gamePanel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton()==MouseEvent.BUTTON1){
-                    int[] clickPosition= new int[2];
-                    clickPosition[0] = e.getX() / 20;
-                    clickPosition[1] = e.getY() / 20;
-                    System.out.println(e.getX() / 20);
-                    System.out.println(e.getY() / 20);
-                    if (playerTurn==0){
-                        killCell(clickPosition, player);
-                    } else if (playerTurn==1){
-                        reliveCell(clickPosition, player);
-                    }
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-//                if (e.getButton() == MouseEvent.BUTTON1) {
-//                    clickPosition= new int[2];
-//                    clickPosition[0] = e.getX() / 20;
-//                    clickPosition[1] = e.getY() / 20;
-//                    System.out.println(e.getX() / 20);
-//                    System.out.println(e.getY() / 20);
-//                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
+        while (clickPosition==null){
+            
+        }
+        if (playerNextTurn == TurnType.KILL_TURN) {
+            killCell(clickPosition, player);
+        } else {
+            reliveCell(clickPosition, player);
+        }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
 }
