@@ -3,7 +3,7 @@ package Board;
 import Cell.*;
 import Game.Generation.Generation;
 import Game.Generation.Validation;
-import Player.Player;
+import Player.*;
 
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class Board implements Iterable<Cell>{
         }
 
         validation = new Validation();
-        generation=new Generation();
+        generation=new Generation(this);
     }
 
 
@@ -48,7 +48,6 @@ public class Board implements Iterable<Cell>{
     }
 
 
-    //
     public Neighbour findNeighbours(Cell cell){
         ArrayList<Cell> neighbours = new ArrayList<Cell>();
         for(int i=0; i<LENGTH; i++){
@@ -174,22 +173,42 @@ public class Board implements Iterable<Cell>{
         // Create a new Random object
         Random rand = new Random();
 
-        // Set the size of the array
-        int size = 10;
+        // Each player has 10 alive cells at first
+        int size = 20;
 
         // Set the range for the random numbers
         int min = 0;
         int max = 30;
 
         // Create an array to store the random numbers
-        int[] randomArray = new int[size];
+        int[] randomArray_length = new int[size];
+        int[] randomArray_width = new int[size];
 
-        // Generate the random numbers and store them in the array
+        // Generate 20 random length and 20 random width
         for (int i = 0; i < size; i++) {
-            randomArray[i] = rand.nextInt((max - min) + 1) + min;
+            randomArray_length[i] = rand.nextInt((max - min) + 1) + min;
+            randomArray_width[i] = rand.nextInt((max - min) + 1) + min;
         }
 
-        return null;
+        for (int i = 0; i < size/2; i++){
+            while(cells[randomArray_length[i]][randomArray_width[i]].getOwner()!=null) {
+                randomArray_length[i] = rand.nextInt((max - min) + 1) + min;
+                randomArray_width[i] = rand.nextInt((max - min) + 1) + min;
+            }
+            cells[randomArray_length[i]][randomArray_width[i]].setOwner(PlayerId.PLAYER_A);
+            cells[randomArray_length[i]][randomArray_width[i]].setStatus(Status.ALIVE);
+        }
+
+        for (int i = size/2; i < size; i++){
+            while(cells[randomArray_length[i]][randomArray_width[i]].getOwner()!=null) {
+                randomArray_length[i] = rand.nextInt((max - min) + 1) + min;
+                randomArray_width[i] = rand.nextInt((max - min) + 1) + min;
+            }
+            cells[randomArray_length[i]][randomArray_width[i]].setOwner(PlayerId.PLAYER_B);
+            cells[randomArray_length[i]][randomArray_width[i]].setStatus(Status.ALIVE);
+        }
+
+        return cells;
     }
 
 }

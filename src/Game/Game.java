@@ -21,7 +21,7 @@ public class Game {
         board = Board.getInstance();
         ui = new GUI();
         turnResult = new TurnResult();
-        generation = new Generation();
+        generation = new Generation(board);
     }
 
     public void setUp(){
