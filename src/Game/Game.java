@@ -23,11 +23,12 @@ public class Game {
 
     public void setUp(){
         // initialize player
-        players.add(new Player(PlayerId.PLAYER_A));
-        players.add(new Player(PlayerId.PLAYER_B));
+        ui.setUpGameWindow();
+        players.add(new Player(PlayerId.PLAYER_A,ui.setPlayerName(PlayerId.PLAYER_A)));
+        players.add(new Player(PlayerId.PLAYER_B,ui.setPlayerName(PlayerId.PLAYER_B)));
         
         // initialize GUI
-        ui.setUpGameWindow();
+
     }
 
     public void play(){

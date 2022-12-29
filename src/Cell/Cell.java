@@ -54,15 +54,15 @@ public class Cell {
         owner = ownerId;
     }
 
-    // Get color according to the playerId
-    public Color getColor(){
-        if(owner == PlayerId.PLAYER_A)
-            return Color.BLUE;
-        else if (owner == PlayerId.PLAYER_B)
-            return Color.RED;
-        else
-            return Color.GRAY;
-    }
+//    // Get color according to the playerId
+//    public Color getColor(){
+//        if(owner == PlayerId.PLAYER_A)
+//            return Color.BLUE;
+//        else if (owner == PlayerId.PLAYER_B)
+//            return Color.RED;
+//        else
+//            return Color.GRAY;
+//    }
 
     public PlayerId getOwner(){
         return owner;

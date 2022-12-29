@@ -2,7 +2,7 @@ package GUI;
 
 import javax.swing.*;
 
-import Player.Player;
+import Player.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -22,7 +22,7 @@ public class GUI implements Observer {
     private String player2ColorStr;
     private String[] colorOption = {"black", "white", "red", "blue", "yellow"};
 
-    public String setPlayerName(String player) {
+    public String setPlayerName(PlayerId player) {
         String playerName = "";
         while (Objects.equals(playerName, "")) {
             JPanel panel = new JPanel();
@@ -36,7 +36,7 @@ public class GUI implements Observer {
         return playerName;
     }
 
-    public String getCellColor(String player, String[] colorOption) {
+    public String getCellColor(PlayerId player, String[] colorOption) {
         JPanel panel = new JPanel();
         String playerColorStr = (String) JOptionPane.showInputDialog(panel, player + "select cell's color", "Select Cell's Color", 1, null, colorOption, colorOption[0]);
         if (playerColorStr == null) {
@@ -57,8 +57,8 @@ public class GUI implements Observer {
     }
 
     public void setAllPlayersInfo() {
-        player1Name = setPlayerName("player1 ");
-        player1ColorStr = getCellColor("player1 ", colorOption);
+        player1Name = setPlayerName(PlayerId.PLAYER_A);
+        player1ColorStr = getCellColor(PlayerId.PLAYER_A, colorOption);
         player1Color = setCellColor(player1ColorStr);
 
         String[] newColorOption = new String[colorOption.length - 1];
@@ -69,14 +69,14 @@ public class GUI implements Observer {
                 flag += 1;
             }
         }
-        player2Name = setPlayerName("player2 ");
-        player2ColorStr = getCellColor("player2 ", newColorOption);
+        player2Name = setPlayerName(PlayerId.PLAYER_B);
+        player2ColorStr = getCellColor(PlayerId.PLAYER_B, newColorOption);
         player2Color = setCellColor(player2ColorStr);
     }
 
     public void setUpGameWindow() {
 //        System.out.println(player1Name);
-
+        setAllPlayersInfo();
         JLabel headerLabel = new JLabel("Conway’s Game of Life", JLabel.CENTER);
         headerLabel.setBounds(250, 5, 200, 20);
 

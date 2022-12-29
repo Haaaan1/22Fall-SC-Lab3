@@ -1,15 +1,19 @@
 package Player;
 
+
+
 /**
  * Represent a player in the game
  */
 public class Player {
     private final PlayerId id;
     private int livingCellNum;
+    private String name;
     //private String playerName;
 
-    public Player (PlayerId id) {
+    public Player (PlayerId id,String name) {
         this.id = id;
+        this.name = name;
         this.livingCellNum = 0;
     }
 
@@ -24,4 +28,5 @@ public class Player {
     public void modifyCellNum(int num){
         livingCellNum = num;
     }
+
 }
