@@ -1,21 +1,27 @@
 package Board;
 
 import Cell.*;
+import Game.Generation.Generation;
+import Game.Generation.Validation;
+import Player.Player;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Random;
 
 public class Board implements Iterable<Cell>{
     // 2-D array to keep all cells
     private Cell[][] cells;
+    private Validation validation;
+    private Generation generation;
     public final static int LENGTH=30;
     public final static int WIDTH=30;
     private static Board INSTANCE;  //Singleton design pattern
 
     // Use singleton design pattern
-    public Board(){
+    private Board(){
         // Initial cells
         cells = new Cell[LENGTH][WIDTH];
         for (int i = 0; i < LENGTH; i++) {
@@ -23,6 +29,9 @@ public class Board implements Iterable<Cell>{
                 cells[i][j] = new Cell(this);
             }
         }
+
+        validation = new Validation();
+        generation=new Generation();
     }
 
 
@@ -137,8 +146,50 @@ public class Board implements Iterable<Cell>{
     }
 
     // Take position([1,2]) from GUI, return reference of Cell
-    public Cell getCell(int[] position){
+    private Cell getCell(int[] position){
         return cells[position[0]][position[1]];
+    }
+
+    public boolean ifKill(Player player, int[] position){
+        return validation.validateKill(player,getCell(position));
+    }
+
+    public boolean ifRelive(int[] position){
+        return validation.validatePlacememt(getCell(position));
+    }
+
+    public void doKill(int[] position){
+        generation.doKill(getCell(position));
+    }
+
+    public void doRelive(Player player, int[] position){
+        generation.doRelive(player, getCell(position));
+    }
+
+    public Cell[][] getAllCells(){
+        return cells;
+    }
+
+    public Cell[][] initializeBoard(){
+        // Create a new Random object
+        Random rand = new Random();
+
+        // Set the size of the array
+        int size = 10;
+
+        // Set the range for the random numbers
+        int min = 0;
+        int max = 30;
+
+        // Create an array to store the random numbers
+        int[] randomArray = new int[size];
+
+        // Generate the random numbers and store them in the array
+        for (int i = 0; i < size; i++) {
+            randomArray[i] = rand.nextInt((max - min) + 1) + min;
+        }
+
+        return null;
     }
 
 }

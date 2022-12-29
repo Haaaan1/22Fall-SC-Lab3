@@ -4,6 +4,8 @@ import Board.Board;
 import Game.Generation.Generation;
 import Player.*;
 import GUI.*;
+import Board.*;
+import Cell.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Game {
 
 
     public Game(){
-        board = new Board();
+        board = Board.getInstance();
         ui = new GUI();
         turnResult = new TurnResult();
         generation = new Generation();
@@ -36,6 +38,7 @@ public class Game {
         while (!judgeWinner()){
             for(Player player : players){
                 ui.startTurnOf(player);
+
             }
             // After each player's turn, ask generation to execute all cells' move
             generation.executeAll();
@@ -57,6 +60,26 @@ public class Game {
     private void getAndDeclareWinner() {
         final var winners = players.stream().filter(p -> p.getLivingCellNum() != 0).toList();
         ui.endWithWinner(winners.get(0));
+    }
+
+    public boolean getKill(Player player, int[] position){
+        return board.ifKill(player,position);
+    }
+
+    public boolean getRelive(Player player, int[] position){
+        return board.ifRelive(position);
+    }
+
+    public void doKill(Player player, int[] position){
+        board.doKill(position);
+    }
+
+    public void doRelive(Player player, int[] position){
+        board.doRelive(player,position);
+    }
+
+    public Cell[][] getAllCells(){
+        return board.getAllCells();
     }
 
 }

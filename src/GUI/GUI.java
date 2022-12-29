@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 
+import Game.Game;
 import Game.Generation.Generation;
 import Player.*;
 
@@ -21,7 +22,8 @@ public class GUI implements Observer {
     private Color player2Color;
     private String player2ColorStr;
     private String[] colorOption = {"black", "white", "red", "blue", "yellow"};
-    Generation generation = new Generation();
+    private int playerTurn = 0;
+//    Game game = new Game();
 
     public String setPlayerName(PlayerId player) {
         String playerName = "";
@@ -163,12 +165,16 @@ public class GUI implements Observer {
 //        return clickPosition;
 //    }
 
-    public void killCell(int[] position) {
+    public void killCell(int[] position, Player player) {
         Component c = gamePanel.getComponentAt(position[0] * 20, position[1] * 20);
         System.out.println(c);
         if (c instanceof JPanel) {
             c.setBackground(Color.GRAY);
         }
+    }
+
+    public void reliveCell(int[] position, Player player){
+
     }
 
     public void refreshGamePanel() {
@@ -188,25 +194,33 @@ public class GUI implements Observer {
 
     public void startTurnOf(Player player) {
         // Start player's turn and let player pick one cell to kill and one cell to place
+
         gamePanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
+                if (e.getButton()==MouseEvent.BUTTON1){
                     int[] clickPosition= new int[2];
                     clickPosition[0] = e.getX() / 20;
                     clickPosition[1] = e.getY() / 20;
                     System.out.println(e.getX() / 20);
                     System.out.println(e.getY() / 20);
-                    if(generation.getKill(player, clickPosition)){
-                        // change color
-
+                    if (playerTurn==0){
+                        killCell(clickPosition, player);
+                    } else if (playerTurn==1){
+                        reliveCell(clickPosition, player);
                     }
                 }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+//                if (e.getButton() == MouseEvent.BUTTON1) {
+//                    clickPosition= new int[2];
+//                    clickPosition[0] = e.getX() / 20;
+//                    clickPosition[1] = e.getY() / 20;
+//                    System.out.println(e.getX() / 20);
+//                    System.out.println(e.getY() / 20);
+//                }
             }
 
             @Override

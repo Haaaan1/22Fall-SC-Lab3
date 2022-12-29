@@ -23,12 +23,12 @@ public class Generation {
 
     }
 
-    public boolean getKill(Player player, int[] position){
-
+    public void doKill(Cell cell){
+        cell.prepareSuicide();
     }
 
-    public void getRelive(Player player, int[] position){
-
+    public void doRelive(Player player, Cell cell){
+        cell.prepareRelive(player.getPlayerId());
     }
 
 

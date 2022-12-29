@@ -54,6 +54,10 @@ public class Cell {
         owner = ownerId;
     }
 
+    public void setStatus(Status status){
+        this.status = status;
+    }
+
 //    // Get color according to the playerId
 //    public Color getColor(){
 //        if(owner == PlayerId.PLAYER_A)
