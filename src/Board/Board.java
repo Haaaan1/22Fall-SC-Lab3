@@ -55,14 +55,10 @@ public class Board implements Iterable<Cell>{
 
 
     public Neighbour findNeighbours(Cell cell){
-        System.out.println("findNeighbours");
         ArrayList<Cell> neighbours = new ArrayList<Cell>();
-        System.out.println(cell);
         for(int i=0; i<LENGTH; i++){
             for(int j=0; j<WIDTH; j++){
-                System.out.println(cells[i][j]);
                 if(cell==cells[i][j]){
-                    System.out.println("Find CELL:"+cell);
                     // Four corners-----------------------------------------------------------
                     if((i==0)&&(j==0)){ //upper left corner
                         neighbours.add(cells[i][j+1]);
@@ -124,10 +120,6 @@ public class Board implements Iterable<Cell>{
 
         Neighbour neighbour = new Neighbour(neighbours);
         // Find neighbours
-        System.out.println("999");
-        for(int i=0; i< neighbours.size(); i++){
-            System.out.println(i);
-        }
         return neighbour;
     }
 

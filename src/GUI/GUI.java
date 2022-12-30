@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Objects;
+import static javax.swing.JOptionPane.showMessageDialog;
 import java.util.concurrent.TimeUnit;
 
 public class GUI {
@@ -132,15 +133,17 @@ public class GUI {
                         if (game.getRelive(PlayerId.PLAYER_B, clickPosition)) {
                             reliveCell(clickPosition, TurnType.PLAYER2_RELIVE_TURN, TurnType.PLAYER1_KILL_TURN, PlayerId.PLAYER_B);
                             refreshGamePanel(game.getAllCells());
-                            try {
-                                TimeUnit.SECONDS.sleep(3);
-                            } catch (InterruptedException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            showMessageDialog(null, "A Turn Finish!");
+//                            try {
+//                                TimeUnit.SECONDS.sleep(3);
+//                            } catch (InterruptedException ex) {
+//                                throw new RuntimeException(ex);
+//                            }
                             System.out.println("Execute");
                             game.execute();
                         }
                     }
+
                     // System.out.println("Refresh");
                     refreshGamePanel(game.getAllCells());
                 }
