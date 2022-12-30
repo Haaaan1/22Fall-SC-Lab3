@@ -11,14 +11,19 @@ public class Cell {
     private Status nextStatus;
     private PlayerId nextOwner;
     private Neighbour neighbour;
+    private Board board;
     private ArrayList<Cell> neighbourCellList;
 
     public Cell(Board board){
         // aggregate all 8 neighbours
         //this.neighbour = neighbour;
-        neighbour = board.findNeighbours(this);
+        this.board = board;
         // initial to be DEAD
         status = Status.DEAD;
+    }
+
+    public void setNeighbour(){
+        neighbour = board.findNeighbours(this);
     }
 
     // Ask neighbours how many are alive
@@ -34,7 +39,7 @@ public class Cell {
 
     public void suicide(){
         status = Status.DEAD;
-        nextOwner = null;
+        owner = null;
     }
     public void relive(PlayerId ownerId){
         status = Status.ALIVE;

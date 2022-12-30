@@ -18,6 +18,8 @@ public class Neighbour {
             if(neighbours.get(i).areYouAlive())
                 aliveNum++;
         }
+        if(aliveNum>0)
+            System.out.println(aliveNum);
         return aliveNum;
     }
 

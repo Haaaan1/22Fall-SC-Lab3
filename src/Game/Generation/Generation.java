@@ -59,6 +59,12 @@ public class Generation {
         Cell[][] c = board.getAllCells();
         for(int i=0; i<c[0].length; i++){
             for(int j=0; j<c[i].length; j++){
+                if(c[i][j].getOwner()!=null){
+                    System.out.println("Live owner >0 :"+c[i][j].getOwner());
+                }
+                if(c[i][j].howManyAlive()>0){
+                    System.out.println("Live neighbour >0 :"+c[i][j].howManyAlive());
+                }
                 if(c[i][j].howManyAlive()!=2){
                     if(c[i][j].howManyAlive()==3){
                         c[i][j].prepareRelive(c[i][j].getMaxOwner());
@@ -68,6 +74,7 @@ public class Generation {
                 }
             }
         }
+
     }
 
     // Ask all Cells to execute

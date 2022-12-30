@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class GUI {
     private JLayeredPane gamePanel;
@@ -103,6 +104,8 @@ public class GUI {
         GridLayout gridLayout = new GridLayout(30, 30, 1, 1);
         gamePanel.setLayout(gridLayout);
         gamePanel.setBounds(25, 25, 600, 600);
+        Cell[][] initCells = game.setUp(player1Name,player2Name);
+        initGamePanel(initCells);
         gamePanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -110,21 +113,36 @@ public class GUI {
                     clickPosition = new int[2];
                     clickPosition[1] = e.getX() / 20;
                     clickPosition[0] = e.getY() / 20;
-                    System.out.println(e.getX() / 20);
-                    System.out.println(e.getY() / 20);
+                    System.out.println(clickPosition[0]);
+                    System.out.println(clickPosition[1]);
 
-                    while (!game.judgeWinner()){
-
-                        while (clickPosition==null){
-                            clickPosition=getClickPosition();
+                    if (playerNextTurn == TurnType.PLAYER1_KILL_TURN) {
+                        if (game.getKill(PlayerId.PLAYER_A, clickPosition)) {
+                            killCell(clickPosition, TurnType.PLAYER1_KILL_TURN, TurnType.PLAYER1_RELIVE_TURN, PlayerId.PLAYER_A);
                         }
-                        System.out.println("Start Turn");
-                        killCell(clickPosition, TurnType.PLAYER1_KILL_TURN, TurnType.PLAYER1_RELIVE_TURN, PlayerId.PLAYER_A);
-                        System.out.println("Execute");
-                        game.execute();
-                        refreshGamePanel(game.getAllCells());
-                        refreshInfoPanel();
+                    } else if (playerNextTurn == TurnType.PLAYER1_RELIVE_TURN) {
+                        if (game.getRelive(PlayerId.PLAYER_A, clickPosition)) {
+                            reliveCell(clickPosition, TurnType.PLAYER1_RELIVE_TURN, TurnType.PLAYER2_KILL_TURN, PlayerId.PLAYER_A);
+                        }
+                    } else if (playerNextTurn == TurnType.PLAYER2_KILL_TURN) {
+                        if (game.getKill(PlayerId.PLAYER_B, clickPosition)) {
+                            killCell(clickPosition, TurnType.PLAYER2_KILL_TURN, TurnType.PLAYER2_RELIVE_TURN, PlayerId.PLAYER_B);
+                        }
+                    } else {
+                        if (game.getRelive(PlayerId.PLAYER_B, clickPosition)) {
+                            reliveCell(clickPosition, TurnType.PLAYER2_RELIVE_TURN, TurnType.PLAYER1_KILL_TURN, PlayerId.PLAYER_B);
+                            refreshGamePanel(game.getAllCells());
+                            try {
+                                TimeUnit.SECONDS.sleep(3);
+                            } catch (InterruptedException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            System.out.println("Execute");
+                            game.execute();
+                        }
                     }
+                    // System.out.println("Refresh");
+                    refreshGamePanel(game.getAllCells());
                 }
             }
 
@@ -157,8 +175,7 @@ public class GUI {
 //            gridPanel1.setBackground(Color.GRAY);
 //            gamePanel.add(gridPanel1);
 //        }
-        Cell[][] initCells = game.setUp(player1Name,player2Name);
-        initGamePanel(initCells);
+
 
         String n1 = player1Name;
         String n2 = player2Name;
@@ -276,9 +293,10 @@ public class GUI {
     }
 
     public void refreshGamePanel(Cell[][] allCells) {
+
         for (int i = 0; i < allCells.length; i++) {
             for (int j = 0; j < allCells[i].length; j++) {
-                Component c = gamePanel.getComponentAt(i * 20, j * 20);
+                Component c = gamePanel.getComponentAt(j * 20, i * 20);
                 if (allCells[i][j].getOwner() == PlayerId.PLAYER_A) {
                     c.setBackground(player1Color);
                 } else if (allCells[i][j].getOwner() == PlayerId.PLAYER_B){
@@ -319,28 +337,28 @@ public class GUI {
         return clickPosition;
     }
 
-    public void play() {
-        System.out.println("Start play");
-         //Start player's turn and let player pick one cell to kill and one cell to place
-
-        System.out.println("go!");
-        while (!game.judgeWinner()){
-            
-            while (clickPosition==null){
-                clickPosition=getClickPosition();
-            }
-            System.out.println("Start Turn");
-            killCell(clickPosition, TurnType.PLAYER1_KILL_TURN, TurnType.PLAYER1_RELIVE_TURN, PlayerId.PLAYER_A);
-            reliveCell(clickPosition, TurnType.PLAYER1_RELIVE_TURN, TurnType.PLAYER2_KILL_TURN, PlayerId.PLAYER_A);
-            killCell(clickPosition, TurnType.PLAYER2_KILL_TURN, TurnType.PLAYER2_RELIVE_TURN, PlayerId.PLAYER_B);
-            reliveCell(clickPosition, TurnType.PLAYER2_RELIVE_TURN, TurnType.PLAYER1_KILL_TURN, PlayerId.PLAYER_B);
-            System.out.println("Execute");
-            game.execute();
-            refreshGamePanel(game.getAllCells());
-            refreshInfoPanel();
-        }
-        System.out.println("end!");
-        endWithWinner();
-    }
+//    public void play() {
+//        System.out.println("Start play");
+//         //Start player's turn and let player pick one cell to kill and one cell to place
+//
+//        System.out.println("go!");
+//        while (!game.judgeWinner()){
+//
+////            while (clickPosition==null){
+////                clickPosition=getClickPosition();
+////            }
+//            System.out.println("Start Turn");
+//            killCell(clickPosition, TurnType.PLAYER1_KILL_TURN, TurnType.PLAYER1_RELIVE_TURN, PlayerId.PLAYER_A);
+//            reliveCell(clickPosition, TurnType.PLAYER1_RELIVE_TURN, TurnType.PLAYER2_KILL_TURN, PlayerId.PLAYER_A);
+//            killCell(clickPosition, TurnType.PLAYER2_KILL_TURN, TurnType.PLAYER2_RELIVE_TURN, PlayerId.PLAYER_B);
+//            reliveCell(clickPosition, TurnType.PLAYER2_RELIVE_TURN, TurnType.PLAYER1_KILL_TURN, PlayerId.PLAYER_B);
+//            System.out.println("Execute");
+//            game.execute();
+//            refreshGamePanel(game.getAllCells());
+//            refreshInfoPanel();
+//        }
+//        System.out.println("end!");
+//        endWithWinner();
+//    }
 
 }
