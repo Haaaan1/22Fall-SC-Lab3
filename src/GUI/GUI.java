@@ -232,6 +232,7 @@ public class GUI {
     }
 
     public void reliveCell(int[] position, TurnType thisStep, TurnType nextStep, PlayerId player) {
+        System.out.println("Have fun relive");
         while (!game.getRelive(player, position)) {
             playerNextTurn = thisStep;
             clickPosition = new int[2];
@@ -324,7 +325,7 @@ public class GUI {
 
         System.out.println("go!");
         while (!game.judgeWinner()){
-
+            
             while (clickPosition==null){
                 clickPosition=getClickPosition();
             }
