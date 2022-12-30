@@ -108,10 +108,23 @@ public class GUI {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     clickPosition = new int[2];
-                    clickPosition[0] = e.getX() / 20;
-                    clickPosition[1] = e.getY() / 20;
+                    clickPosition[1] = e.getX() / 20;
+                    clickPosition[0] = e.getY() / 20;
                     System.out.println(e.getX() / 20);
                     System.out.println(e.getY() / 20);
+
+                    while (!game.judgeWinner()){
+
+                        while (clickPosition==null){
+                            clickPosition=getClickPosition();
+                        }
+                        System.out.println("Start Turn");
+                        killCell(clickPosition, TurnType.PLAYER1_KILL_TURN, TurnType.PLAYER1_RELIVE_TURN, PlayerId.PLAYER_A);
+                        System.out.println("Execute");
+                        game.execute();
+                        refreshGamePanel(game.getAllCells());
+                        refreshInfoPanel();
+                    }
                 }
             }
 
