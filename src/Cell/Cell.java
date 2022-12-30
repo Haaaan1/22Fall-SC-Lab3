@@ -58,6 +58,11 @@ public class Cell {
         nextOwner = ownerId;
     }
 
+    public void prepareStay(){
+        nextStatus = status;
+        nextOwner = owner;
+    }
+
     // Execute relive or suicide
     public void execute(){
         status = nextStatus;

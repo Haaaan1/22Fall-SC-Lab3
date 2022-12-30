@@ -59,13 +59,15 @@ public class Generation {
         Cell[][] c = board.getAllCells();
         for(int i=0; i<c[0].length; i++){
             for(int j=0; j<c[i].length; j++){
-                if(c[i][j].howManyAlive()!=2){
-                    if(c[i][j].howManyAlive()==3){
-                        c[i][j].prepareRelive(c[i][j].getMaxOwner());
-                    }else{
-                        c[i][j].prepareSuicide();
-                    }
+                if(c[i][j].howManyAlive()==3){
+                    c[i][j].prepareRelive(c[i][j].getMaxOwner());
+                }else if(c[i][j].howManyAlive()==2){
+                    c[i][j].prepareStay();
                 }
+                else{
+                    c[i][j].prepareSuicide();
+                }
+
             }
         }
 
