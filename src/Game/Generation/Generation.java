@@ -16,11 +16,25 @@ public class Generation {
 
     // Ask all Cells: Are you alive? Return all cells
     public int getLiveNumOfCells(PlayerId id){
+//        int num = 0;
+//        System.out.println("live num cells"+num);
+//        while(board.iterator().hasNext()){
+//            Cell currentCell = board.iterator().next();
+//            System.out.println(currentCell.getOwner());
+//            if(currentCell.getOwner()==id)
+//                num++;
+//        }
+//
+//
+//        return num;
         int num = 0;
-        // System.out.println("live num cells"+num);
-        while(board.iterator().hasNext()){
-            if(board.iterator().next().getOwner()==id)
-                num++;
+        Cell[][] c = board.getAllCells();
+        for(int i=0; i<c[0].length; i++){
+            for(int j=0; j<c[i].length; j++){
+                if(c[i][j].getOwner()==id){
+                    num++;
+                }
+            }
         }
 
 
@@ -31,13 +45,26 @@ public class Generation {
 
     // Tell Cells: What to do Next?
     public void selfCheck(){
-        while(board.iterator().hasNext()){
-            Cell currentCell = board.iterator().next();
-            if(currentCell.howManyAlive()!=2){
-                if(currentCell.howManyAlive()==3){
-                    currentCell.prepareRelive(currentCell.getMaxOwner());
-                }else{
-                    currentCell.prepareSuicide();
+//        while(board.iterator().hasNext()){
+//            Cell currentCell = board.iterator().next();
+//            if(currentCell.howManyAlive()!=2){
+//                if(currentCell.howManyAlive()==3){
+//                    currentCell.prepareRelive(currentCell.getMaxOwner());
+//                }else{
+//                    currentCell.prepareSuicide();
+//                }
+//            }
+//        }
+
+        Cell[][] c = board.getAllCells();
+        for(int i=0; i<c[0].length; i++){
+            for(int j=0; j<c[i].length; j++){
+                if(c[i][j].howManyAlive()!=2){
+                    if(c[i][j].howManyAlive()==3){
+                        c[i][j].prepareRelive(c[i][j].getMaxOwner());
+                    }else{
+                        c[i][j].prepareSuicide();
+                    }
                 }
             }
         }
@@ -46,8 +73,15 @@ public class Generation {
     // Ask all Cells to execute
     public void executeAll(){
         selfCheck();
-        while(board.iterator().hasNext()){
-            board.iterator().next().execute();
+//        while(board.iterator().hasNext()){
+//            board.iterator().next().execute();
+//        }
+
+        Cell[][] c = board.getAllCells();
+        for(int i=0; i<c[0].length; i++){
+            for(int j=0; j<c[i].length; j++){
+                c[i][j].execute();
+            }
         }
     }
 
