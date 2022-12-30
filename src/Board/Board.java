@@ -223,7 +223,7 @@ public class Board implements Iterable<Cell>{
         int size = 4;
 
         // Set the range for the random numbers
-        int min = 0;
+        int min = 1;
         int max = 13;
 
 
@@ -245,11 +245,11 @@ public class Board implements Iterable<Cell>{
 
         cells[randomArray_length][29-randomArray_width].setOwner(PlayerId.PLAYER_B);
         cells[randomArray_length][29-randomArray_width].setStatus(Status.ALIVE);
-        cells[randomArray_length-1][29-randomArray_width].setOwner(PlayerId.PLAYER_B);
-        cells[randomArray_length-1][29-randomArray_width].setStatus(Status.ALIVE);
+        cells[randomArray_length+1][29-randomArray_width].setOwner(PlayerId.PLAYER_B);
+        cells[randomArray_length+1][29-randomArray_width].setStatus(Status.ALIVE);
 
-        cells[randomArray_length][29-randomArray_width-1].setOwner(PlayerId.PLAYER_B);
-        cells[randomArray_length][29-randomArray_width-1].setStatus(Status.ALIVE);
+        cells[randomArray_length][29-randomArray_width+1].setOwner(PlayerId.PLAYER_B);
+        cells[randomArray_length][29-randomArray_width+1].setStatus(Status.ALIVE);
 
         cells[randomArray_length+1][29-randomArray_width+1].setOwner(PlayerId.PLAYER_B);
         cells[randomArray_length+1][29-randomArray_width+1].setStatus(Status.ALIVE);

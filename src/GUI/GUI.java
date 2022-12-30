@@ -301,15 +301,20 @@ public class GUI {
     }
 
 
+    public int[] getClickPosition(){
+        return clickPosition;
+    }
 
     public void play() {
         System.out.println("Start play");
-        // Start player's turn and let player pick one cell to kill and one cell to place
-//        while (clickPosition==null){
-//
-//        }
+         //Start player's turn and let player pick one cell to kill and one cell to place
+
         System.out.println("go!");
         while (!game.judgeWinner()){
+
+            while (clickPosition==null){
+                clickPosition=getClickPosition();
+            }
             System.out.println("Start Turn");
             killCell(clickPosition, TurnType.PLAYER1_KILL_TURN, TurnType.PLAYER1_RELIVE_TURN, PlayerId.PLAYER_A);
             reliveCell(clickPosition, TurnType.PLAYER1_RELIVE_TURN, TurnType.PLAYER2_KILL_TURN, PlayerId.PLAYER_A);
