@@ -17,10 +17,13 @@ public class Generation {
     // Ask all Cells: Are you alive? Return all cells
     public int getLiveNumOfCells(PlayerId id){
         int num = 0;
+        // System.out.println("live num cells"+num);
         while(board.iterator().hasNext()){
             if(board.iterator().next().getOwner()==id)
                 num++;
         }
+
+
         return num;
     }
 

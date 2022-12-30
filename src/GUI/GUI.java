@@ -200,11 +200,15 @@ public class GUI {
     }
 
     public void killCell(int[] position, TurnType thisStep, TurnType nextStep, PlayerId player) {
+        System.out.println("Have fun kill");
         while (!game.getKill(player, position)) {
+            System.out.println("oops");
             playerNextTurn = thisStep;
             clickPosition = new int[2];
         }
+        System.out.println("Ready to kill cell");
         game.doKill(player, position);
+        System.out.println("Do to kill cell");
         clickPosition = new int[2];
         Component c = gamePanel.getComponentAt(position[0] * 20, position[1] * 20);
         System.out.println(c);

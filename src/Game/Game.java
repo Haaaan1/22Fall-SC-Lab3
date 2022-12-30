@@ -43,10 +43,12 @@ public class Game {
     // Judge whether there is a winner.
     // If someone wins, return true.
     public boolean judgeWinner() {
-        for (Player player : players) {
-            if (generation.getLiveNumOfCells(player.getPlayerId()) == 0)
-                return true;// we have a winner
+        System.out.println("Judge");
+        if (generation.getLiveNumOfCells(PlayerId.PLAYER_A) == 0||generation.getLiveNumOfCells(PlayerId.PLAYER_B) == 0){
+            System.out.println("we have a winner");
+            return true;// we have a winner
         }
+        System.out.println("no winner this turn");
         return false;//no winner
     }
 
