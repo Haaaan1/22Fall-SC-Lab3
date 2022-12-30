@@ -254,10 +254,6 @@ public class Board implements Iterable<Cell>{
         cells[randomArray_length+1][29-randomArray_width+1].setOwner(PlayerId.PLAYER_B);
         cells[randomArray_length+1][29-randomArray_width+1].setStatus(Status.ALIVE);
 
-
-        cells[29][29].setOwner(PlayerId.PLAYER_B);
-        cells[29][29].setStatus(Status.ALIVE);
-
         return cells;
     }
 
