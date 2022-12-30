@@ -30,9 +30,7 @@ public class Game {
         // initialize player
         //ui.setUpGameWindow();
         players.add(new Player(PlayerId.PLAYER_A,nameA));
-        players.get(0).modifyCellNum(generation.getLiveNumOfCells(PlayerId.PLAYER_A));
         players.add(new Player(PlayerId.PLAYER_B,nameB));
-        players.get(1).modifyCellNum(generation.getLiveNumOfCells(PlayerId.PLAYER_B));
         return board.initializeBoard();
         // initialize GUI
 
@@ -46,13 +44,14 @@ public class Game {
     // If someone wins, return true.
     public boolean judgeWinner() {
         for (Player player : players) {
-            if (generation.getLiveNumOfCells(player.getPlayerId()) == 0) return true;// we have a winner
+            if (generation.getLiveNumOfCells(player.getPlayerId()) == 0)
+                return true;// we have a winner
         }
         return false;//no winner
     }
 
     public PlayerId getWinner() {
-        final var winners = players.stream().filter(p -> p.getLivingCellNum() != 0).toList();
+        final var winners = players.stream().filter(p -> generation.getLiveNumOfCells(p.getPlayerId()) != 0).toList();
         return winners.get(0).getPlayerId();
     }
 

@@ -23,12 +23,4 @@ public class Player {
         return id;
     }
 
-    public int getLivingCellNum() {
-        return livingCellNum;
-    }
-
-    public void modifyCellNum(int num){
-        livingCellNum = num;
-    }
-
 }

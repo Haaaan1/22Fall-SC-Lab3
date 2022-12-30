@@ -311,6 +311,7 @@ public class GUI {
             reliveCell(clickPosition, TurnType.PLAYER1_RELIVE_TURN, TurnType.PLAYER2_KILL_TURN, PlayerId.PLAYER_A);
             killCell(clickPosition, TurnType.PLAYER2_KILL_TURN, TurnType.PLAYER2_RELIVE_TURN, PlayerId.PLAYER_B);
             reliveCell(clickPosition, TurnType.PLAYER2_RELIVE_TURN, TurnType.PLAYER1_KILL_TURN, PlayerId.PLAYER_B);
+            System.out.println("Execute");
             game.execute();
             refreshGamePanel(game.getAllCells());
             refreshInfoPanel();
