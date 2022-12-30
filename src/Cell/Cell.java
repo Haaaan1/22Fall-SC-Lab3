@@ -32,6 +32,15 @@ public class Cell {
         return status==Status.ALIVE;
     }
 
+    public void suicide(){
+        status = Status.DEAD;
+        nextOwner = null;
+    }
+    public void relive(PlayerId ownerId){
+        status = Status.ALIVE;
+        owner = ownerId;
+    }
+
     // Suicide at the end of Turn
     public void prepareSuicide(){
         nextStatus = Status.DEAD;
@@ -70,6 +79,10 @@ public class Cell {
 
     public PlayerId getOwner(){
         return owner;
+    }
+
+    public PlayerId getMaxOwner(){
+        return neighbour.getMaxOwner();
     }
 
 }

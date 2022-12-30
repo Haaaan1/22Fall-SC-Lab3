@@ -15,8 +15,8 @@ public class Player {
     public Player (PlayerId id,String name) {
         this.id = id;
         this.name = name;
-//        this.livingCellNum = 0;
-        this.livingCellNum = 10;
+        this.livingCellNum = 0;
+//        this.livingCellNum = 10;
     }
 
     public PlayerId getPlayerId() {

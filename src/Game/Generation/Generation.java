@@ -2,7 +2,7 @@ package Game.Generation;
 
 import Board.Board;
 import Cell.Cell;
-import Player.Player;
+import Player.*;
 
 import java.util.ArrayList;
 
@@ -15,27 +15,45 @@ public class Generation {
     }
 
     // Ask all Cells: Are you alive? Return all cells
-    public ArrayList<Cell> getAllCells(){
-        return null;
+    public int getLiveNumOfCells(PlayerId id){
+        int num = 0;
+        while(board.iterator().hasNext()){
+            if(board.iterator().next().getOwner()==id)
+                num++;
+        }
+        return num;
     }
 
     // Ask all Cells: How many alive neighbours?
 
     // Tell Cells: What to do Next?
+    public void selfCheck(){
+        while(board.iterator().hasNext()){
+            Cell currentCell = board.iterator().next();
+            if(currentCell.howManyAlive()!=2){
+                if(currentCell.howManyAlive()==3){
+                    currentCell.prepareRelive(currentCell.getMaxOwner());
+                }else{
+                    currentCell.prepareSuicide();
+                }
+            }
+        }
+    }
 
     // Ask all Cells to execute
     public void executeAll(){
+        selfCheck();
         while(board.iterator().hasNext()){
             board.iterator().next().execute();
         }
     }
 
     public void doKill(Cell cell){
-        cell.prepareSuicide();
+        cell.suicide();
     }
 
     public void doRelive(Player player, Cell cell){
-        cell.prepareRelive(player.getPlayerId());
+        cell.relive(player.getPlayerId());
     }
 
 

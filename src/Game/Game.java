@@ -4,7 +4,6 @@ import Board.Board;
 import Game.Generation.Generation;
 import Player.*;
 import GUI.*;
-import Board.*;
 import Cell.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,74 +11,80 @@ import java.util.List;
 public class Game {
     private final List<Player> players = new ArrayList<>();
     private final Board board;
-    private final GUI ui;
-    private final TurnResult turnResult;
     private final Generation generation;
+    private static Game INSTANCE;
 
 
-    public Game(){
+    private Game(){
         board = Board.getInstance();
-        ui = new GUI();
-        turnResult = new TurnResult();
         generation = new Generation(board);
     }
 
-    public void setUp(){
+    public static synchronized Game getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Game();
+        }
+        return INSTANCE;
+    }
+    public Cell[][] setUp(String nameA,String nameB){
         // initialize player
-//        ui.setUpGameWindow();
-        players.add(new Player(PlayerId.PLAYER_A,ui.getPlayerName(PlayerId.PLAYER_A)));
-        players.add(new Player(PlayerId.PLAYER_B,ui.getPlayerName(PlayerId.PLAYER_B)));
-        
+        //ui.setUpGameWindow();
+        players.add(new Player(PlayerId.PLAYER_A,nameA));
+        players.get(0).modifyCellNum(generation.getLiveNumOfCells(PlayerId.PLAYER_A));
+        players.add(new Player(PlayerId.PLAYER_B,nameB));
+        players.get(1).modifyCellNum(generation.getLiveNumOfCells(PlayerId.PLAYER_B));
+        return board.initializeBoard();
         // initialize GUI
 
     }
 
-    public void play(){
-        while (!judgeWinner()){
-            for(Player player : players){
-                ui.startTurnOf(player);
-
-            }
-            // After each player's turn, ask generation to execute all cells' move
-            generation.executeAll();
-            // Display turn
-        }
-        // Game ends with winner
-        getAndDeclareWinner();
+    public void execute(){
+        generation.executeAll();
     }
 
     // Judge whether there is a winner.
     // If someone wins, return true.
-    private boolean judgeWinner() {
+    public boolean judgeWinner() {
         for (Player player : players) {
-            if (player.getLivingCellNum() == 0) return true;
+            if (generation.getLiveNumOfCells(player.getPlayerId()) == 0) return true;// we have a winner
         }
-        return false;
+        return false;//no winner
     }
 
-    private void getAndDeclareWinner() {
+    public PlayerId getWinner() {
         final var winners = players.stream().filter(p -> p.getLivingCellNum() != 0).toList();
-        ui.endWithWinner(winners.get(0));
+        return winners.get(0).getPlayerId();
     }
 
-    public boolean getKill(Player player, int[] position){
-        return board.ifKill(player,position);
+    public boolean getKill(PlayerId playerId, int[] position){
+        
+        return board.ifKill(getPlayer(playerId),position);
     }
 
-    public boolean getRelive(Player player, int[] position){
+    public boolean getRelive(PlayerId playerId, int[] position){
+        
         return board.ifRelive(position);
     }
 
-    public void doKill(Player player, int[] position){
+    public void doKill(PlayerId playerId, int[] position){
+
         board.doKill(position);
     }
 
-    public void doRelive(Player player, int[] position){
-        board.doRelive(player,position);
+    public void doRelive(PlayerId playerId, int[] position){
+
+        board.doRelive(getPlayer(playerId),position);
     }
 
     public Cell[][] getAllCells(){
         return board.getAllCells();
+    }
+    
+    public Player getPlayer(PlayerId playerId){
+        if(playerId==PlayerId.PLAYER_A)
+            return players.get(0);
+        else
+            return players.get(1);
     }
 
 }
