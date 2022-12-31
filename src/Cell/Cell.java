@@ -77,6 +77,8 @@ public class Cell {
         this.status = status;
     }
 
+    public Status getStatus(){return status;}
+
 
     public PlayerId getOwner(){
         return owner;
