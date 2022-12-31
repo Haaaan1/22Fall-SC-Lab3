@@ -37,5 +37,8 @@ public class Neighbour {
             return PlayerId.PLAYER_B;
     }
 
-
+    //write for test
+    public int getNeighborNum(){
+        return neighbours.size();
+    }
 }
