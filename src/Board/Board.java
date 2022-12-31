@@ -8,7 +8,6 @@ import Player.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Optional;
 import java.util.Random;
 
 public class Board implements Iterable<Cell> {
@@ -165,7 +164,7 @@ public class Board implements Iterable<Cell> {
     }
 
     public boolean ifRelive(int[] position) {
-        return validation.validatePlacememt(getCell(position));
+        return validation.validatePlacement(getCell(position));
     }
 
     public void doKill(int[] position) {

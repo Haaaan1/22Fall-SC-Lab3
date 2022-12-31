@@ -5,8 +5,8 @@ import Cell.Cell;
 
 public class Validation {
     // Placement validation
-    public boolean validatePlacememt(Cell cell){
-        if(cell.getOwner()==null){
+    public boolean validatePlacement(Cell cell) {
+        if (cell.getOwner() == null) {
             return true;
         }
 
@@ -14,12 +14,12 @@ public class Validation {
     }
 
     // Kill validation
-    public boolean validateKill(Player player, Cell cell){
-        if(player.getPlayerId()==cell.getOwner()){
+    public boolean validateKill(Player player, Cell cell) {
+        if (player.getPlayerId() == cell.getOwner()) {
             return false;
         }
 
-        if(cell.getOwner()==null){
+        if (cell.getOwner() == null) {
             return false;
         }
 
