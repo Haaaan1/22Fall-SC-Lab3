@@ -233,8 +233,8 @@ public class Board implements Iterable<Cell>{
         int max = 13;
 
 
-        int randomArray_length = rand.nextInt((max - min) + 1) + min;
-        int randomArray_width = rand.nextInt((max - min) + 1) + min;
+        int randomArray_length = 10;
+        int randomArray_width = 10;
         cells[randomArray_length][randomArray_width].setOwner(PlayerId.PLAYER_A);
         cells[randomArray_length][randomArray_width].setStatus(Status.ALIVE);
 

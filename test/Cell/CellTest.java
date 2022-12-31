@@ -3,21 +3,22 @@ import Board.*;
 import Player.PlayerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 public class CellTest {
     Board board;
     Neighbour neighbour;
+    Cell[][] cells;
     @BeforeEach
     void init(){
         this.board = Board.getInstance();
+        cells = board.initializeBoard();
     }
 
     @Test
     void howManyAliveTest() {
-        Cell cell = new Cell(board);
-        cell.setNeighbour();
-        assertEquals(0,cell.howManyAlive());
+        Cell testCell = cells[10][10];
+        testCell.setNeighbour();
+        assertEquals(3,testCell.howManyAlive());
     }
 
     @Test
@@ -85,10 +86,12 @@ public class CellTest {
 
     @Test
     void getMaxOwnerTest(){
-        Cell cell = new Cell(board);
+        Cell cell = cells[10][10];
         cell.setNeighbour();
-        assertEquals(PlayerId.PLAYER_B,cell.getMaxOwner());
-
+        assertEquals(PlayerId.PLAYER_A,cell.getMaxOwner());
+        Cell cell2 = cells[10][20];
+        cell2.setNeighbour();
+        assertEquals(PlayerId.PLAYER_B,cell2.getMaxOwner());
     }
 
 }
