@@ -12,7 +12,7 @@ public class TurnResult {
     private static TurnResult INSTANCE;
     private final Board board;
     private Generation generation;
-    private int turnNum = 0;
+    private int turnNum = 1;
     private TurnResult(){
         board = Board.getInstance();
         generation = new Generation(board);
@@ -32,8 +32,12 @@ public class TurnResult {
     }
     // Display turn numbers
     public int getTurnNum(){
-        turnNum++;
+        //turnNum++;
         return turnNum;
+    }
+
+    public void turnPlus(){
+        turnNum++;
     }
 
 }

@@ -214,6 +214,7 @@ public class GUI {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     if (playerNextTurn == TurnType.NEXT_GENERATION) {
                         game.execute();
+                        turnResult.turnPlus();
                         refreshGamePanel(game.getAllCells());
                         refreshInfoPanel();
                         playerNextTurn = startTurn;
