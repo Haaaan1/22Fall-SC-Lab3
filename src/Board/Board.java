@@ -145,11 +145,7 @@ public class Board implements Iterable<Cell> {
                     j = 0;
                 }
 
-                System.out.println(value.getOwner());
                 return value;
-            }
-
-            public void remove() {
             }
         };
     }
@@ -231,7 +227,6 @@ public class Board implements Iterable<Cell> {
         // Set the range for the random numbers
         int min = 1;
         int max = 13;
-
 
         int randomArray_length = 10;
         int randomArray_width = 10;
