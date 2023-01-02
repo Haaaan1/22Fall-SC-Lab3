@@ -155,67 +155,50 @@ public class Board implements Iterable<Cell> {
         return cells[position[0]][position[1]];
     }
 
+    /**
+     * @pre position!=null
+     * @param player
+     * @param position
+     * @return
+     */
     public boolean ifKill(Player player, int[] position) {
         return validation.validateKill(player, getCell(position));
     }
 
+    /**
+     * @pre position!=null
+     * @param position
+     * @return
+     */
     public boolean ifRelive(int[] position) {
         return validation.validatePlacement(getCell(position));
     }
 
+    /**
+     * @pre position!=null
+     * @param position
+     */
     public void doKill(int[] position) {
         generation.doKill(getCell(position));
     }
 
+    /**
+     * @pre position!=null && player!=null
+     * @param player
+     * @param position
+     */
     public void doRelive(Player player, int[] position) {
         generation.doRelive(player, getCell(position));
     }
 
+    /**
+     * @post cells!=null
+     * @return
+     */
     public Cell[][] getAllCells() {
         return cells;
     }
 
-//    public Cell[][] initializeBoard(){
-//        // Create a new Random object
-//        Random rand = new Random();
-//
-//        // Each player has 10 alive cells at first
-//        int size = 20;
-//
-//        // Set the range for the random numbers
-//        int min = 1;
-//        int max = 29;
-//
-//        // Create an array to store the random numbers
-//        int[] randomArray_length = new int[size];
-//        int[] randomArray_width = new int[size];
-//
-//        // Generate 20 random length and 20 random width
-//        for (int i = 0; i < size; i++) {
-//            randomArray_length[i] = rand.nextInt((max - min) + 1) + min;
-//            randomArray_width[i] = rand.nextInt((max - min) + 1) + min;
-//        }
-//
-//        for (int i = 0; i < size/2; i++){
-//            while(cells[randomArray_length[i]][randomArray_width[i]].getOwner()!=null) {
-//                randomArray_length[i] = rand.nextInt((max - min) + 1) + min;
-//                randomArray_width[i] = rand.nextInt((max - min) + 1) + min;
-//            }
-//            cells[randomArray_length[i]][randomArray_width[i]].setOwner(PlayerId.PLAYER_A);
-//            cells[randomArray_length[i]][randomArray_width[i]].setStatus(Status.ALIVE);
-//        }
-//
-//        for (int i = size/2; i < size; i++){
-//            while(cells[randomArray_length[i]][randomArray_width[i]].getOwner()!=null) {
-//                randomArray_length[i] = rand.nextInt((max - min) + 1) + min;
-//                randomArray_width[i] = rand.nextInt((max - min) + 1) + min;
-//            }
-//            cells[randomArray_length[i]][randomArray_width[i]].setOwner(PlayerId.PLAYER_B);
-//            cells[randomArray_length[i]][randomArray_width[i]].setStatus(Status.ALIVE);
-//        }
-//
-//        return cells;
-//    }
 
     public Cell[][] initializeBoard() {
         // Create a new Random object
