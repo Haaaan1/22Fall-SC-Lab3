@@ -23,4 +23,8 @@ public class Player {
         return id;
     }
 
+    public String getPlayerName() {
+        return name;
+    }
+
 }

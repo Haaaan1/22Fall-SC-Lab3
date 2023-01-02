@@ -14,6 +14,7 @@ public class GenerationTest {
     @Test
     void getLiveNumOdCellsTest(){
         Cell[][] cells = board.initializeBoard();
+        generation.executeAll();
         assertEquals(4,generation.getLiveNumOfCells(PlayerId.PLAYER_A));
         assertEquals(4,generation.getLiveNumOfCells(PlayerId.PLAYER_B));
     }
