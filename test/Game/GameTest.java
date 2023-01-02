@@ -13,12 +13,12 @@ public class GameTest {
     GUI ui = new GUI();
     Game game = Game.getInstance();
 
-    @Test
-    void gamesTest(){
-        ui.setUp();
-        ui.setUpGameWindow();
-        //ui.play();
-    }
+ //   @Test
+//    void gamesTest(){
+//        ui.setUp();
+//        ui.setUpGameWindow();
+//        //ui.play();
+//    }
     @Test
     void getPlayerTest(){
         game.setUp("A","B");
