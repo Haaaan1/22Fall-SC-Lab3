@@ -155,22 +155,46 @@ public class Board implements Iterable<Cell> {
         return cells[position[0]][position[1]];
     }
 
+    /**
+     * @pre position!=null
+     * @param player
+     * @param position
+     * @return
+     */
     public boolean ifKill(Player player, int[] position) {
         return validation.validateKill(player, getCell(position));
     }
 
+    /**
+     * @pre position!=null
+     * @param position
+     * @return
+     */
     public boolean ifRelive(int[] position) {
         return validation.validatePlacement(getCell(position));
     }
 
+    /**
+     * @pre position!=null
+     * @param position
+     */
     public void doKill(int[] position) {
         generation.doKill(getCell(position));
     }
 
+    /**
+     * @pre position!=null && player!=null
+     * @param player
+     * @param position
+     */
     public void doRelive(Player player, int[] position) {
         generation.doRelive(player, getCell(position));
     }
 
+    /**
+     * @post cells!=null
+     * @return
+     */
     public Cell[][] getAllCells() {
         return cells;
     }
