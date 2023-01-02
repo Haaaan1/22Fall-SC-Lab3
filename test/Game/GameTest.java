@@ -10,15 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameTest {
     Board board = Board.getInstance();
     Generation generation = new Generation(board);
-    GUI ui = new GUI();
     Game game = Game.getInstance();
-
- //   @Test
-//    void gamesTest(){
-//        ui.setUp();
-//        ui.setUpGameWindow();
-//        //ui.play();
-//    }
     @Test
     void getPlayerTest(){
         game.setUp("A","B");

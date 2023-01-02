@@ -4,6 +4,9 @@ import Player.Player;
 import Player.PlayerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
@@ -45,5 +48,12 @@ public class BoardTest {
         assertEquals(5, board.findNeighbours(leftEdge).getNeighborNum());
         assertEquals(5, board.findNeighbours(rightEdge).getNeighborNum());
         assertEquals(8, board.findNeighbours(center).getNeighborNum());
+    }
+
+    @Test
+    void iteratorTest(){
+        Iterator<Cell> iterator = board.iterator();
+        assertEquals(true,iterator.hasNext());
+        assertEquals(false, iterator.next().areYouAlive());
     }
 }
